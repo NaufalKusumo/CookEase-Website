@@ -12,15 +12,14 @@ import {
   Users,
 } from "lucide-react";
 import React from "react";
-import { CommentsSection } from "./CommentsSection";
-import { IngredientsSection } from "./IngredientsSection";
-import { InstructionsSection } from "./InstructionsSection";
-import { MainContentSection } from "./MainContentSection";
-import { RatingSection } from "./RatingSection";
-import { RecipeListSection } from "./RecipeListSection";
+import { NavigasiSection } from "./navigasiSection";
+import { StepSection } from "./stepSection";
+import { IngredientsSection } from "./ingredientsSection";
+import { InstructionsSection } from "./instructionsSection";
+import { MainContentSection } from "./mainContentSection";
+import { RatingSection } from "./ratingSectiona";
+import { CommentSection } from "./commentSection";
 import { RecipeTitleSection } from "./RecipeTitleSection";
-import { RelatedRecipesSection } from "./RelatedRecipesSection";
-import { TipsSection } from "./TipsSection";
 
 export default function ResepDetail() {
   const stars = Array(5).fill(0);
