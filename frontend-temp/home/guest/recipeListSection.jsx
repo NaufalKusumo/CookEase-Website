@@ -3,7 +3,7 @@ import React from "react";
 
 const RecipeListSection = () => {
   return (
-    <section className="flex flex-col gap-[30px] py-[60px] px-[30px]">
+    <section className=""flex flex-col gap-[30px] py-[60px] px-[30px] bg-[url('/frontend-temp/home/img/dashboard_picture.png')] bg-cover bg-center bg-no-repeat"">
       <h1 className="text-[64px] font-bold [font-family:'Outfit-Bold',Helvetica] text-black tracking-[0] leading-[normal]">
         Cook Like a Pro With Our Easy And Tasty Recipes
       </h1>
