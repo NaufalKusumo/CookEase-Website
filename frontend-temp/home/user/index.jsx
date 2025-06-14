@@ -2,10 +2,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PlusCircle, Search } from "lucide-react";
 import React from "react";
-import { NewRecipesSection } from "./NewRecipesSection";
-import { RecipeCardSection } from "./RecipeCardSection";
-import { RecipeListSection } from "./RecipeListSection";
-import { TipsSection } from "./TipsSection";
+import { NewRecipesSection } from "./newRecipesSection";
+import { RecipeCardSection } from "./recipeCardSection";
+import { RecipeListSection } from "./recipeListSection";
+import { TipsSection } from "./tipsSection";
 
 export default function UserRegistered() {
   return (
