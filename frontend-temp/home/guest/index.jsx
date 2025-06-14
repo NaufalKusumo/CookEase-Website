@@ -2,10 +2,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import React from "react";
-import { FeaturedRecipesSection } from "./FeaturedRecipesSection";
-import { NavigationSection } from "./NavigationSection";
-import { RecipeListSection } from "./RecipeListSection";
-import { TipsAndTricksSection } from "./TipsAndTricksSection";
+import { FeaturedRecipesSection } from "./featuredRecipesSection";
+import { NavigationSection } from "./navigationSection";
+import { RecipeListSection } from "./recipeListSection";
+import { TipsSection } from "./tipsSection";
 
 export default function Guest() {
   return (
