@@ -1,80 +1,77 @@
-import { Card, CardContent } from "@/components/ui/card";
-import { Clock } from "lucide-react";
+import { Avatar } from "@/components/ui/avatar";
+import { AvatarImage } from "@/components/ui/avatar";
+import { AvatarFallback } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { CardContent } from "@/components/ui/card";
+import { ChevronDown, ThumbsUp } from "lucide-react";
 import React from "react";
 
-export default function CommentsSection() {
-  // Recipe steps data for mapping
-  const recipeSteps = [
-    {
-      step: 1,
-      instruction: "Cuci beras lalu rendam dengan kunyit",
-      id: "stopwatch",
+export default function RecipeListSection() {
+  // Data for the recipe comment
+  const commentData = {
+    user: {
+      name: "Naufal Kusumo",
+      avatar: "", // Placeholder for avatar image
+      timeAgo: "2 hari yang lalu",
     },
-    {
-      step: 2,
-      instruction:
-        "Tiriskan air, lalu kukus kurleb 30 menit atau setengah matang. Masukkan daun pandan 2 lembar.",
-      id: "stopwatch2",
+    comment: {
+      title: "Cocok buat arisan",
+      likes: 120,
+      replies: 5,
     },
-    {
-      step: 3,
-      instruction:
-        "Sambil menunggu kukusan nasi matang, tuang santan ke dalam panci, lalu beri kunyit bubuk. Aduk rata",
-      id: "stopwatch3",
-    },
-    {
-      step: 4,
-      instruction:
-        "Tambahkan daun pandan, daun salam, daun jeruk, serai, lengkuas, garam, kaldu jamur, penyedap dan gula. Harus terasa asin supaya nanti nasinya pas rasanya",
-      id: "stopwatch4",
-    },
-    {
-      step: 5,
-      instruction:
-        "Angkat beras yang sudah dikukus, lalu siram dengan santan sambil diaduk2.",
-      id: "stopwatch5",
-    },
-    {
-      step: 6,
-      instruction: "Lalu tutup kurang lebih 30 menit",
-      id: "stopwatch6",
-    },
-    {
-      step: 7,
-      instruction: "Kukus kembali hingga matang kurang lebih 60 menit",
-      id: "stopwatch7",
-    },
-    {
-      step: 8,
-      instruction: "Angkat dan sajikan dengan pelengkapnya.",
-      id: "stopwatch8",
-    },
-  ];
+  };
 
   return (
-    <div className="flex flex-col items-start gap-[11px] w-full">
-      {recipeSteps.map((item, index) => (
-        <Card
-          key={index}
-          className="w-full bg-light rounded-[20px] shadow-[0px_4px_4px_#00000080]"
+    <Card className="flex items-start gap-[7px] border-none shadow-none w-full">
+      <Avatar className="w-20 h-20">
+        <AvatarImage
+          src={commentData.user.avatar}
+          alt={commentData.user.name}
+        />
+        <AvatarFallback>NK</AvatarFallback>
+      </Avatar>
+
+      <CardContent className="flex flex-col w-full items-start gap-2.5 p-0">
+        <div className="flex items-center gap-2">
+          <span className="font-normal text-2xl">{commentData.user.name}</span>
+          <span className="font-extralight text-base">
+            {commentData.user.timeAgo}
+          </span>
+        </div>
+
+        <h3 className="font-normal text-[32px] leading-normal">
+          {commentData.comment.title}
+        </h3>
+
+        <div className="flex items-center gap-[35px]">
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2.5">
+              <ThumbsUp className="w-10 h-10" />
+              <span className="font-normal text-2xl">
+                {commentData.comment.likes}
+              </span>
+            </div>
+            <div className="w-5">
+              <ThumbsUp className="w-10 h-10 -mr-5" />
+            </div>
+          </div>
+
+          <Button variant="ghost" className="font-normal text-2xl h-auto p-0">
+            Balas
+          </Button>
+        </div>
+
+        <Button
+          variant="ghost"
+          className="flex items-center gap-2.5 py-2.5 px-0 h-auto"
         >
-          <CardContent className="flex items-start gap-5 px-[15px] py-2.5">
-            <div className="flex flex-col w-[23px] items-center justify-center gap-2.5 bg-white">
-              <div className="self-stretch mt-[-1.00px] text-4xl [font-family:'Outfit-Regular',Helvetica] font-normal text-black tracking-[0] leading-[normal]">
-                {item.step}.
-              </div>
-            </div>
-
-            <div className="w-[587px] mt-[-1.00px] [font-family:'Outfit-Regular',Helvetica] font-normal text-black text-4xl tracking-[0] leading-[normal]">
-              {item.instruction}
-            </div>
-
-            <div className="relative w-[68px] h-16 mr-[-4.00px] flex items-center justify-center">
-              <Clock size={64} className="text-gray-700" />
-            </div>
-          </CardContent>
-        </Card>
-      ))}
-    </div>
+          <ChevronDown className="w-10 h-10" />
+          <span className="font-normal text-2xl">
+            {commentData.comment.replies} balasan
+          </span>
+        </Button>
+      </CardContent>
+    </Card>
   );
 }
