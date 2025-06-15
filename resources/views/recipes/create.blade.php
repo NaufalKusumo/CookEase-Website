@@ -35,7 +35,6 @@
             <textarea name="description" placeholder="Keterangan singkat dibalik resepmu (Optional)" class="mt-4 w-full text-lg bg-gray-100 p-4 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">{{ old('description') }}</textarea>
 
             <!-- Photo Upload -->
-<!-- Photo Upload -->
             <div id="photo-preview-container" class="mt-6 w-full h-80 bg-gray-100 rounded-md border-2 border-dashed border-gray-300 flex items-center justify-center bg-cover bg-center">
                 <label for="photo" class="cursor-pointer text-center text-gray-500">
                     <!-- This is the placeholder we will hide -->
@@ -79,29 +78,6 @@ Garam..." class="mt-4 w-full text-lg bg-gray-100 p-4 rounded-md focus:outline-no
             </div>
         </form>
     </main>
-
-        <!-- Footer -->
-    <footer class="bg-gray-900 text-white py-16">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-8">
-                <h3 class="text-4xl font-bold mb-4">COOK.</h3>
-                <p class="text-xl text-gray-300 max-w-2xl mx-auto">
-                    From quick and easy meals to gourmet delights, we have something for every taste and occasion
-                </p>
-            </div>
-            
-            <div class="flex justify-center space-x-12 text-lg">
-                <!-- Laravel: Add route links -->
-                <a href="#" class="text-gray-300 hover:text-white transition-colors">Beranda</a>
-                <a href="#" class="text-gray-300 hover:text-white transition-colors">Resep</a>
-                <a href="#" class="text-gray-300 hover:text-white transition-colors">Tips Dapur</a>
-            </div>
-            
-            <div class="mt-12 pt-8 border-t border-gray-700 text-center text-gray-400">
-                <p>&copy; 2025 CookEase. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
 
             <!-- ADD THIS SCRIPT BLOCK RIGHT HERE -->
         <script>
