@@ -32,8 +32,8 @@
         <!-- No Results Message -->
         @if ($recipes->isEmpty() && $tips->isEmpty())
             <div class="text-center bg-white p-12 rounded-lg shadow-md">
-                <h2 class="text-2xl font-semibold text-gray-700">No Results Found</h2>
-                <p class="mt-2 text-gray-500">We couldn't find any recipes or tips matching your search. Please try a different keyword.</p>
+                <h2 class="text-2xl font-semibold text-gray-700">Hasil Tidak Ditemukan</h2>
+                <p class="mt-2 text-gray-500">Kita tidak dapat menemukan resep maupun tips yang anda maksud.</p>
             </div>
         @endif
 

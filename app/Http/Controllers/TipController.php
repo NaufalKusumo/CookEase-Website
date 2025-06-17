@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Tip; // Use the Tip model
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class TipController extends Controller
 {
@@ -62,5 +63,70 @@ class TipController extends Controller
             'tip' => $tip,
             'otherTips' => $otherTips,
         ]);
+    }
+
+    public function edit(Tip $tip)
+    {
+        // AUTHORIZATION CHECK
+        if (auth()->id() !== $tip->user_id) {
+            abort(403, 'Unauthorized Action');
+        }
+
+        return view('tips.edit', ['tip' => $tip]);
+    }
+
+    /**
+     * Update the specified tip in storage.
+     */
+    public function update(Request $request, Tip $tip)
+    {
+        // AUTHORIZATION CHECK
+        if (auth()->id() !== $tip->user_id) {
+            abort(403, 'Unauthorized Action');
+        }
+
+        // VALIDATE (same as your create method)
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string|max:255',
+            'content' => 'required|string',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240',
+        ]);
+        
+        // HANDLE FILE UPLOAD (if a new one is provided)
+        if ($request->hasFile('photo')) {
+            if ($tip->photo) {
+                Storage::disk('public')->delete($tip->photo);
+            }
+            $validated['photo'] = $request->file('photo')->store('tips', 'public');
+        }
+
+        // UPDATE THE TIP
+        $tip->update($validated);
+
+        // REDIRECT back to the tip's detail page
+        return redirect()->route('tips.show', $tip->id)->with('success', 'Tip updated successfully!');
+    }
+
+    /**
+     * Remove the specified tip from storage.
+     */
+    public function destroy(Tip $tip)
+    {
+        // AUTHORIZATION CHECK
+        if (auth()->id() !== $tip->user_id) {
+            abort(403, 'Unauthorized Action');
+        }
+
+        // DELETE THE PHOTO if it exists
+        if ($tip->photo) {
+            Storage::disk('public')->delete($tip->photo);
+        }
+
+        // DELETE THE TIP from the database
+        $tip->delete();
+
+        // REDIRECT to the homepage
+        return redirect('/')->with('success', 'Tip deleted successfully.');
     }
 }

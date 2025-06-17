@@ -8,6 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Tip extends Model
 {
     use HasFactory;
+    
+    // ADD THIS PROPERTY!
+    protected $fillable = [
+        'title',
+        'description',
+        'content',
+        'photo',
+    ];
 
     // Just like a Recipe belongs to a User, a Tip also belongs to a User.
     public function user()

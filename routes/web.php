@@ -39,6 +39,11 @@ Route::middleware('auth')->group(function () {
 
     Route::delete('/recipes/{recipe}', [RecipeController::class, 'destroy'])->name('recipes.destroy');
 
+    // Edit tips
+    Route::get('/tips/{tip}/edit', [TipController::class, 'edit'])->name('tips.edit');
+    Route::put('/tips/{tip}', [TipController::class, 'update'])->name('tips.update');
+    Route::delete('/tips/{tip}', [TipController::class, 'destroy'])->name('tips.destroy');
+
     // User can comment
     Route::post('/recipes/{recipe}/comments', [CommentController::class, 'storeRecipeComment'])->name('comments.store.recipe');
     Route::post('/tips/{tip}/comments', [CommentController::class, 'storeTipComment'])->name('comments.store.tip');
