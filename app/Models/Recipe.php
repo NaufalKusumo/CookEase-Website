@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Recipe extends Model
 {
-    use HasFactory; // This line might already be here
+    use HasFactory; 
 
     /**
      * The attributes that are mass assignable.
@@ -23,9 +23,23 @@ class Recipe extends Model
         'instructions',
     ];
 
-    // ADD THIS FUNCTION RIGHT HERE!
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable')->latest();
+    }
+
+    public function getAverageRatingAttribute()
+    {
+        // Get the average rating from the related comments.
+        // The ?. is the "null-safe operator" in case there are no comments.
+        $average = $this->comments()->avg('rating');
+
+        // Format to one decimal place, or return 'No ratings' if null.
+        return $average ? number_format($average, 1) : 'No rating';
     }
 }

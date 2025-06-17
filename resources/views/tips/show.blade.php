@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ $tip->title }} - CookEase</title>
+    @vite('resources/css/app.css')
+</head>
+<body class="bg-white">
+
+    <!-- Navbar for a logged-in user -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto p-4 flex justify-between items-center">
+            <a href="/" class="text-2xl font-bold text-gray-800">CookEase</a>
+            <div class="flex items-center space-x-4">
+                 @auth
+                    <a href="{{ route('tips.create') }}" class="px-4 py-2 bg-yellow-500 text-white font-semibold rounded-md hover:bg-yellow-600 flex items-center space-x-2">
+                        <span>Buat</span>
+                    </a>
+                    <a href="#" class="text-gray-600 hover:text-gray-800">
+                        <!-- User profile icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+                    </a>
+                 @else
+                    <a href="{{ route('login') }}" class="px-6 py-2 border border-gray-800 text-gray-800 rounded-full hover:bg-gray-800 hover:text-white">Login/Register</a>
+                 @endauth
+            </div>
+        </nav>
+    </header>
+
+            <!-- Session Message Alerts -->
+    <div class="container mx-auto mt-6 px-4">
+        @if (session('success'))
+            <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4" role="alert">
+                <p>{{ session('success') }}</p>
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4" role="alert">
+                <p>{{ session('error') }}</p>
+            </div>
+        @endif
+    </div>
+
+    <!-- Main Content -->
+    <main class="container mx-auto mt-8 px-4">
+        <div class="flex flex-col lg:flex-row gap-8">
+
+            <!-- Left Column: tip Details -->
+            <div class="w-full lg:w-2/3">
+                <!-- tip Header -->
+                <h1 class="text-4xl font-bold text-gray-900">{{ $tip->title }}</h1>
+                <div class="mt-2 flex items-center space-x-4 text-gray-600">
+                    <span>Author: {{ $tip->user->name }}</span>
+                    <span>·</span>
+                    <span>{{ $tip->created_at->diffForHumans() }}</span>
+                    <span>·</span>
+                    <div class="flex items-center space-x-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                        <span>3.5</span> <!-- Static for now -->
+                    </div>
+                </div>
+                <p class="mt-4 text-lg text-gray-700">{{ $tip->description }}</p>
+
+                <!-- tip Image -->
+                <div class="mt-6">
+                    @if ($tip->photo)
+                        <img src="{{ asset('storage/' . $tip->photo) }}" alt="{{ $tip->title }}" class="w-full rounded-lg object-cover">
+                    @endif
+                </div>
+
+                <!-- Tip Content -->
+                <div class="mt-8">
+                    <h2 class="text-3xl font-bold">Isi Tip</h2>
+                    <div class="mt-4 prose max-w-none text-lg">
+                        {!! nl2br(e($tip->content)) !!}
+                    </div>
+                </div>
+
+                    <!-- Comment & Rating Section -->
+                    <div class="mt-12 border-t pt-8">
+                        <h2 class="text-3xl font-bold">Ulasan & Komentar</h2>
+
+                        <!-- Comment Submission Form -->
+                        @auth
+                            @if(auth()->id() === $tip->user_id)
+                                <div class="mt-6 bg-gray-100 p-8 rounded-lg text-center">
+                                    <p class="text-gray-600">Ini resep anda sendiri. Anda tidak bisa memberikan review.</p>
+                                </div>
+                            @elseif($tip->comments()->where('user_id', auth()->id())->exists())
+                                <div class="mt-6 bg-gray-100 p-8 rounded-lg text-center">
+                                    <p class="text-gray-600">Terima Kasih atas review anda</p>
+                                </div>
+                            @else
+                                <div class="mt-6 bg-gray-50 p-6 rounded-lg">
+                                    <form method="POST" action="{{ route('comments.store.tip', $tip->id) }}">
+                                        @csrf
+                                        <h3 class="text-lg font-semibold mb-2">Beri Ulasan Anda</h3>
+                                        
+                                        <!-- Rating Input -->
+                                        <div class="mb-4">
+                                            <label for="rating" class="block mb-1 font-medium">Rating (Wajib)</label>
+                                            <select name="rating" id="rating" class="w-full border-gray-300 rounded-md shadow-sm">
+                                                <option value="5">5 Bintang - Sempurna</option>
+                                                <option value="4">4 Bintang - Enak</option>
+                                                <option value="3">3 Bintang - Cukup</option>
+                                                <option value="2">2 Bintang - Kurang</option>
+                                                <option value="1">1 Bintang - Buruk</option>
+                                            </select>
+                                        </div>
+
+                                        <!-- Comment Body Input -->
+                                        <div>
+                                            <label for="body" class="block mb-1 font-medium">Komentar (Optional)</label>
+                                            <textarea name="body" id="body" rows="4" class="w-full border-gray-300 rounded-md shadow-sm" placeholder="Bagaimana menurut Anda resep ini?"></textarea>
+                                        </div>
+
+                                        <button type="submit" class="mt-4 px-6 py-2 bg-green-600 text-white font-semibold rounded-md hover:bg-green-500">Kirim Ulasan</button>
+                                    </form>
+                                </div>
+                            @endif
+                        @else
+                        <div class="mt-6 bg-gray-100 p-8 rounded-lg text-center">
+                            <p class="text-gray-600">Please <a href="{{ route('login') }}" class="text-blue-600 hover:underline">login</a> to leave a review.</p>
+                        </div>
+                        @endauth
+
+                        <!-- Display Existing Comments -->
+                        <div class="mt-8 space-y-6">
+                            @forelse ($tip->comments as $comment)
+                                <div class="flex space-x-4">
+                                    <div class="flex-shrink-0">
+                                        <!-- Placeholder for user avatar -->
+                                        <div class="h-12 w-12 rounded-full bg-gray-200 flex items-center justify-center font-bold text-gray-500">
+                                            {{ substr($comment->user->name, 0, 1) }}
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="flex items-center space-x-2">
+                                            <span class="font-bold">{{ $comment->user->name }}</span>
+                                            <span class="text-xs text-gray-500">{{ $comment->created_at->diffForHumans() }}</span>
+                                        </div>
+                                        <!-- Display stars for the rating -->
+                                        <div class="flex items-center mt-1">
+                                            @for ($i = 0; $i < 5; $i++)
+                                                <svg class="h-5 w-5 {{ $i < $comment->rating ? 'text-yellow-500' : 'text-gray-300' }}" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                                            @endfor
+                                        </div>
+                                        @if ($comment->body)
+                                            <p class="mt-2 text-gray-700">{{ $comment->body }}</p>
+                                        @endif
+                                    </div>
+                                </div>
+                            @empty
+                                <p class="text-gray-500">Belum ada ulasan untuk tips ini. Jadilah yang pertama!</p>
+                            @endforelse
+                        </div>
+                    </div>
+            </div>
+
+            <!-- Right Column: Sidebar -->
+            <div class="w-full lg:w-1/3">
+                <div class="sticky top-24"> <!-- Makes sidebar follow scroll -->
+                    <h3 class="text-xl font-bold mb-4">Other tips</h3>
+                    <div class="space-y-4">
+                        @foreach ($otherTips as $other)
+                        <a href="{{ route('tips.show', $other->id) }}" class="flex items-center space-x-4 group">
+                            <img src="{{ $other->photo ? asset('storage/' . $other->photo) : 'https://via.placeholder.com/150' }}" alt="{{$other->title}}" class="w-24 h-24 rounded-md object-cover">
+                            <div>
+                                <h4 class="font-semibold group-hover:text-yellow-600">{{ $other->title }}</h4>
+                                <p class="text-sm text-gray-500">by {{ $other->user->name }}</p>
+                            </div>
+                        </a>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+</body>
+</html>

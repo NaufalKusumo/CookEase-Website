@@ -5,6 +5,8 @@ use App\Models\Recipe;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage; 
 
 class RecipeController extends Controller
 {
@@ -78,6 +80,74 @@ class RecipeController extends Controller
             'recipe' => $recipe,
             'otherRecipes' => $otherRecipes,
         ]);
+    }
+
+    public function edit(Recipe $recipe)
+    {
+        // AUTHORIZATION CHECK
+        if (auth()->id() !== $recipe->user_id) {
+            abort(403, 'Unauthorized Action');
+        }
+
+        return view('recipes.edit', ['recipe' => $recipe]);
+    }
+
+    /**
+     * Update the specified recipe in storage.
+     */
+    public function update(Request $request, Recipe $recipe)
+    {
+        // AUTHORIZATION CHECK
+        if (auth()->id() !== $recipe->user_id) {
+            abort(403, 'Unauthorized Action');
+        }
+
+        // VALIDATE THE INCOMING DATA (same as your store method)
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240',
+            // ... all your other validation rules ...
+        ]);
+        
+        // HANDLE FILE UPLOAD (if a new one is provided)
+        if ($request->hasFile('photo')) {
+            // Delete the old photo if it exists
+            if ($recipe->photo) {
+                Storage::disk('public')->delete($recipe->photo);
+            }
+            // Store the new photo
+            $validated['photo'] = $request->file('photo')->store('recipes', 'public');
+        }
+
+        // UPDATE THE RECIPE with the validated data
+        $recipe->update($validated);
+
+        // REDIRECT back to the recipe page with a success message
+        return redirect()->route('recipes.show', $recipe->id)->with('success', 'Recipe updated successfully!');
+    }
+
+
+     /**
+     * Remove the specified recipe from storage.
+     */
+    public function destroy(Recipe $recipe)
+    {
+        // AUTHORIZATION CHECK
+        if (auth()->id() !== $recipe->user_id) {
+            abort(403, 'Unauthorized Action');
+        }
+
+        // DELETE THE PHOTO from storage if it exists
+        if ($recipe->photo) {
+            Storage::disk('public')->delete($recipe->photo);
+        }
+
+        // DELETE THE RECIPE from the database
+        $recipe->delete();
+
+        // REDIRECT to the homepage with a success message
+        return redirect('/')->with('success', 'Recipe deleted successfully.');
     }
 }
 
