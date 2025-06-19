@@ -28,10 +28,17 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        // return redirect()->intended(route('dashboard', absolute: false));
-        return redirect()->intended('/'); // Redirect to homepage
-    }
+        // --- ADD THIS NEW LOGIC BLOCK ---
+        $user = $request->user();
+        if ($user && $user->role === 'creator') {
+            // If the user is a creator, redirect them to their dashboard.
+            return redirect()->route('dashboard'); // We will create this route next.
+        }
+        // --- END OF NEW LOGIC BLOCK ---
 
+        // Regular users will continue to the default home route.
+        return redirect()->intended(RouteServiceProvider::HOME);
+    }
     /**
      * Destroy an authenticated session.
      */

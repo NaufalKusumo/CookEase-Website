@@ -55,4 +55,18 @@ class User extends Authenticatable
     {
         return $this->morphedByMany(Tip::class, 'bookmarkable');
     }
+
+    public function recipes()
+    {
+        return $this->hasMany(Recipe::class);
+    }
+
+    /**
+     * Get all of the tips for the User.
+     */
+    public function tips()
+    {
+        return $this->hasMany(Tip::class);
+    }
+
 }

@@ -9,6 +9,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\BookmarkController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\DashboardController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -64,6 +65,8 @@ Route::middleware('auth')->group(function () {
     // Report
     Route::post('/recipes/{recipe}/report', [ReportController::class, 'storeRecipeReport'])->name('reports.store.recipe');
     Route::post('/tips/{tip}/report', [ReportController::class, 'storeTipReport'])->name('reports.store.tip');
+
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('auth');
 });
 
 // ADMIN
