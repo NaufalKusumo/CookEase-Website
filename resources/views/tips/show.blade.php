@@ -13,7 +13,7 @@
         <nav class="container mx-auto p-4 flex justify-between items-center">
             <a href="/" class="text-2xl font-bold text-gray-800">CookEase</a>
             <div class="flex items-center space-x-4">
-                 @auth
+                @auth
                     <a href="{{ route('tips.create') }}" class="px-4 py-2 bg-yellow-500 text-white font-semibold rounded-md hover:bg-yellow-600 flex items-center space-x-2">
                         <span>Buat</span>
                     </a>
@@ -21,9 +21,9 @@
                         <!-- User profile icon -->
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
                     </a>
-                 @else
+                @else
                     <a href="{{ route('login') }}" class="px-6 py-2 border border-gray-800 text-gray-800 rounded-full hover:bg-gray-800 hover:text-white">Login/Register</a>
-                 @endauth
+                @endauth
             </div>
         </nav>
     </header>
@@ -51,6 +51,27 @@
             <div class="w-full lg:w-2/3">
                 <!-- tip Header -->
                 <h1 class="text-4xl font-bold text-gray-900">{{ $tip->title }}</h1>
+                @auth
+                <form method="POST" action="{{ route('tips.bookmark', $tip->id) }}">
+                    @csrf
+                    <button type="submit">
+                        @if (Auth::user()->bookmarkedTips->contains($tip))
+                            <!-- Solid Icon if bookmarked -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-yellow-500" viewBox="0 0 20 20" fill="currentColor"><path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z" /></svg>
+                        @else
+                            <!-- Outline Icon if not -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-400 hover:text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" /></svg>
+                        @endif
+                    </button>
+                </form>
+                @endauth
+                <!-- Report button-->
+                @auth
+                    <button id="open-report-modal-btn" class="mt-4 flex items-center space-x-2 text-gray-500 hover:text-red-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 6a3 3 0 013-3h10a1 1 0 01.8 1.6L14.25 8l2.55 3.4A1 1 0 0116 13H6a1 1 0 01-1-1V6z" clip-rule="evenodd" /></svg>
+                        <span>Laporkan</span>
+                    </button>
+                @endauth
                 <div class="mt-2 flex items-center justify-between">
                     <div class="mt-2 flex items-center space-x-4 text-gray-600">
                         <span>Author: {{ $tip->user->name }}</span>
@@ -63,18 +84,27 @@
                         </div>
                     </div>
                     @auth
-                        @if (auth()->id() === $tip->user_id)
-                        <div class="flex space-x-2">
-                            <a href="{{ route('tips.edit', $tip->id) }}" class="px-4 py-2 bg-blue-600 text-white ...">Edit</a>
-                            <form method="POST" action="{{ route('tips.destroy', $tip->id) }}">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="px-4 py-2 bg-red-600 text-white ..." onclick="return confirm('Are you sure you want to delete this tip?')">
-                                    Delete
-                                </button>
-                            </form>
+                        <div class="flex items-center space-x-2">
+                            
+                            {{-- Rule for "Edit" Button: ONLY the owner can see this. --}}
+                            @if (auth()->id() === $tip->user_id)
+                                <a href="{{ route('tips.edit', $tip->id) }}" class="px-4 py-2 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-500">
+                                    Edit
+                                </a>
+                            @endif
+
+                            {{-- Rule for "Delete" Button: The owner OR an admin can see this. --}}
+                            @if (auth()->id() === $tip->user_id || (auth()->user() && auth()->user()->role === 'admin'))
+                                <form method="POST" action="{{ route('tips.destroy', $tip->id) }}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="px-4 py-2 bg-red-600 text-white font-semibold rounded-md hover:bg-red-500" onclick="return confirm('Are you sure you want to delete this tip?')">
+                                        Delete
+                                    </button>
+                                </form>
+                            @endif
+
                         </div>
-                        @endif
                     @endauth
                 </div>
                 <p class="mt-4 text-lg text-gray-700">{{ $tip->description }}</p>
@@ -195,6 +225,50 @@
 
         </div>
     </main>
+
+        <!-- Report Modal -->
+    <div id="report-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 ...">
+        <div class="bg-white rounded-lg p-8 ...">
+            <h3 class="text-xl font-bold mb-4">Report Content</h3>
+            
+            <!-- The form's action will point to the correct route -->
+            @if(isset($recipe))
+            <form method="POST" action="{{ route('reports.store.recipe', $recipe->id) }}">
+            @else
+            <form method="POST" action="{{ route('reports.store.tip', $tip->id) }}">
+            @endif
+                @csrf
+                <div class="mb-4">
+                    <label for="reason" class="block mb-1">Alasan</label>
+                    <select name="reason" id="reason" class="w-full ...">
+                        <option value="menyesatkan">Menyesatkan atau Tidak Akurat</option>
+                        <option value="spam">Spam atau Iklan</option>
+                        <option value="tidak pantas">Konten Tidak Pantas</option>
+                        <option value="lainnya">Lainnya</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="details" class="block mb-1">Details (Optional)</label>
+                    <textarea name="details" id="details" rows="4" class="w-full ..." placeholder="Please provide more details..."></textarea>
+                </div>
+                <div class="mt-6 flex justify-end space-x-4">
+                    <button type="button" id="close-report-modal-btn" class="px-4 py-2 bg-gray-200 ...">Cancel</button>
+                    <button type="submit" class="px-4 py-2 bg-red-600 text-white ...">Kirim Laporan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        // Script to control the Report Modal
+        const openReportBtn = document.getElementById('open-report-modal-btn');
+        const closeReportBtn = document.getElementById('close-report-modal-btn');
+        const reportModal = document.getElementById('report-modal');
+
+        if(openReportBtn) {
+            openReportBtn.addEventListener('click', () => reportModal.classList.remove('hidden'));
+        }
+        closeReportBtn.addEventListener('click', () => reportModal.classList.add('hidden'));
+    </script>
 
 </body>
 </html>

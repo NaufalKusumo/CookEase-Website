@@ -134,7 +134,7 @@ class RecipeController extends Controller
     public function destroy(Recipe $recipe)
     {
         // AUTHORIZATION CHECK
-        if (auth()->id() !== $recipe->user_id) {
+        if (auth()->id() !== $recipe->user_id && auth()->user()->role !== 'admin') {
             abort(403, 'Unauthorized Action');
         }
 
@@ -148,6 +148,16 @@ class RecipeController extends Controller
 
         // REDIRECT to the homepage with a success message
         return redirect('/')->with('success', 'Recipe deleted successfully.');
+    }
+
+    public function index()
+    {
+        // Get all recipes, ordered by the newest first, and paginate them.
+        // paginate(12) will show 12 recipes per page.
+        $recipes = \App\Models\Recipe::latest()->paginate(12);
+
+        // Return a new view and pass the paginated recipes to it.
+        return view('recipes.index', ['recipes' => $recipes]);
     }
 }
 

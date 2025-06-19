@@ -35,4 +35,16 @@ class Tip extends Model
         $average = $this->comments()->avg('rating');
         return $average ? number_format($average, 1) : 'No rating';
     }
+
+    public function bookmarks()
+    {
+        return $this->morphToMany(User::class, 'bookmarkable');
+    }
+
+    public function reports()
+    {
+        return $this->morphMany(Report::class, 'reportable');
+    }
+
+    public function path() { return '/tips/' . $this->id; }
 }

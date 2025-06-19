@@ -13,7 +13,7 @@
         <nav class="container mx-auto p-4 flex justify-between items-center">
             <a href="/" class="text-2xl font-bold text-gray-800">CookEase</a>
             <div class="flex items-center space-x-4">
-                 @auth
+                @auth
                     <a href="{{ route('recipes.create') }}" class="px-4 py-2 bg-yellow-500 text-white font-semibold rounded-md hover:bg-yellow-600 flex items-center space-x-2">
                         <span>Buat</span>
                     </a>
@@ -21,9 +21,9 @@
                         <!-- User profile icon -->
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
                     </a>
-                 @else
+                @else
                     <a href="{{ route('login') }}" class="px-6 py-2 border border-gray-800 text-gray-800 rounded-full hover:bg-gray-800 hover:text-white">Login/Register</a>
-                 @endauth
+                @endauth
             </div>
         </nav>
     </header>
@@ -51,6 +51,32 @@
             <div class="w-full lg:w-2/3">
                 <!-- Recipe Header -->
                 <h1 class="text-4xl font-bold text-gray-900">{{ $recipe->title }}</h1>
+                    <!-- BOOKMARK BUTTON FORM -->
+                @auth
+                <form method="POST" action="{{ route('recipes.bookmark', $recipe->id) }}">
+                    @csrf
+                    <button type="submit">
+                        @if (Auth::user()->bookmarkedRecipes->contains($recipe))
+                            <!-- Solid Icon if already bookmarked -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-yellow-500" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z" />
+                            </svg>
+                        @else
+                            <!-- Outline Icon if not bookmarked -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-400 hover:text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                            </svg>
+                        @endif
+                    </button>
+                </form>
+                @endauth
+                <!-- Report button-->
+                @auth
+                    <button id="open-report-modal-btn" class="mt-4 flex items-center space-x-2 text-gray-500 hover:text-red-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 6a3 3 0 013-3h10a1 1 0 01.8 1.6L14.25 8l2.55 3.4A1 1 0 0116 13H6a1 1 0 01-1-1V6z" clip-rule="evenodd" /></svg>
+                        <span>Laporkan</span>
+                    </button>
+                @endauth
                 <div class="mt-2 flex items-center space-x-4 text-gray-600">
                     <span>Author: {{ $recipe->user->name }}</span>
                     <span>·</span>
@@ -64,23 +90,27 @@
 
                 <!-- EDIT/MODIFY BUTTON -->
                 @auth
-                    @if (Auth::id() === $recipe->user_id)
-                        <!-- <div class="mt-6 flex space-x-4 border-b pb-6">
-                            <a href="{{ route('recipes.edit', $recipe->id) }}" class="px-6 py-2 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-500">
-                                Edit Recipe
+                    <div class="flex items-center space-x-2">
+                        
+                        {{-- Rule for "Edit" Button: ONLY the owner can see this. --}}
+                        @if (auth()->id() === $recipe->user_id)
+                            <a href="{{ route('recipes.edit', $recipe->id) }}" class="px-4 py-2 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-500">
+                                Edit
                             </a>
-                        </div> -->
-                        <div class="flex space-x-2">
-                            <a href="{{ route('recipes.edit', $recipe->id) }}" class="px-4 py-2 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-500">Edit</a>
+                        @endif
+
+                        {{-- Rule for "Delete" Button: The owner OR an admin can see this. --}}
+                        @if (auth()->id() === $recipe->user_id || (auth()->user() && auth()->user()->role === 'admin'))
                             <form method="POST" action="{{ route('recipes.destroy', $recipe->id) }}">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="px-4 py-2 bg-red-600 text-white font-semibold rounded-md hover:bg-blue-500" onclick="return confirm('Are you sure you want to delete this recipe?')">
+                                <button type="submit" class="px-4 py-2 bg-red-600 text-white font-semibold rounded-md hover:bg-red-500" onclick="return confirm('Are you sure you want to delete this recipe?')">
                                     Delete
                                 </button>
                             </form>
-                        </div>
-                    @endif
+                        @endif
+
+                    </div>
                 @endauth
 
 
@@ -102,7 +132,7 @@
                             <p class="font-medium">{{ $recipe->servings ?? 'N/A' }}</p>
                         </div>
                     </div>
-                     <div class="flex items-center space-x-2">
+                    <div class="flex items-center space-x-2">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                         <div>
                             <p class="text-sm text-gray-500">Prep Time</p>
@@ -127,9 +157,9 @@
                             @if(trim($step)) {{-- Only render if step is not empty --}}
                             <div class="instruction-item flex items-start space-x-2"> {{-- Reduced space-x from 3 to 2 --}}
                                 <input type="checkbox" 
-                                       id="step-{{ $recipe->id }}-{{ $loop->index }}" 
-                                       name="step-{{ $recipe->id }}-{{ $loop->index }}"
-                                       class="mt-1 h-5 w-5 shrink-0 rounded border-gray-300 text-green-600 shadow-sm focus:ring-green-500 cursor-pointer">
+                                    id="step-{{ $recipe->id }}-{{ $loop->index }}" 
+                                    name="step-{{ $recipe->id }}-{{ $loop->index }}"
+                                    class="mt-1 h-5 w-5 shrink-0 rounded border-gray-300 text-green-600 shadow-sm focus:ring-green-500 cursor-pointer">
                                 
                                 {{-- Wrapper for timer controls and the instruction label --}}
                                 <div class="instruction-content-wrapper flex-grow flex items-center space-x-1.5">  {{-- Changed items-start to items-center --}}
@@ -245,6 +275,49 @@
 
         </div>
     </main>
+    <!-- Report Modal -->
+    <div id="report-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 ...">
+        <div class="bg-white rounded-lg p-8 ...">
+            <h3 class="text-xl font-bold mb-4">Report Content</h3>
+            
+            <!-- The form's action will point to the correct route -->
+            @if(isset($recipe))
+            <form method="POST" action="{{ route('reports.store.recipe', $recipe->id) }}">
+            @else
+            <form method="POST" action="{{ route('reports.store.tip', $tip->id) }}">
+            @endif
+                @csrf
+                <div class="mb-4">
+                    <label for="reason" class="block mb-1">Alasan</label>
+                    <select name="reason" id="reason" class="w-full ...">
+                        <option value="menyesatkan">Menyesatkan atau Tidak Akurat</option>
+                        <option value="spam">Spam atau Iklan</option>
+                        <option value="tidak pantas">Konten Tidak Pantas</option>
+                        <option value="lainnya">Lainnya</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="details" class="block mb-1">Details (Optional)</label>
+                    <textarea name="details" id="details" rows="4" class="w-full ..." placeholder="Please provide more details..."></textarea>
+                </div>
+                <div class="mt-6 flex justify-end space-x-4">
+                    <button type="button" id="close-report-modal-btn" class="px-4 py-2 bg-gray-200 ...">Cancel</button>
+                    <button type="submit" class="px-4 py-2 bg-red-600 text-white ...">Kirim Laporan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        // Script to control the Report Modal
+        const openReportBtn = document.getElementById('open-report-modal-btn');
+        const closeReportBtn = document.getElementById('close-report-modal-btn');
+        const reportModal = document.getElementById('report-modal');
+
+        if(openReportBtn) {
+            openReportBtn.addEventListener('click', () => reportModal.classList.remove('hidden'));
+        }
+        closeReportBtn.addEventListener('click', () => reportModal.classList.add('hidden'));
+    </script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -289,7 +362,7 @@
                         // Initial classes for animation: starts hidden and with no width.
                         // On click, 'max-w-0' and 'opacity-0' will be removed, and 'min-w-[45px]' (or a specific max-width) will allow it to expand.
                         timerDisplay.classList.add('timer-countdown', 'text-sm', 'text-green-600', // Changed text-gray-600 to text-green-600
-                                                 'text-left', 'font-mono', 'shrink-0', 
+                                                'text-left', 'font-mono', 'shrink-0', 
                                                  'max-w-0', 'opacity-0', 'overflow-hidden', // Initially hidden & zero-width
                                                  'transition-all', 'duration-300', 'ease-in-out'); // Animation classes
                         // timerDisplay.textContent = `${minutes}:00`; // Optionally show initial time

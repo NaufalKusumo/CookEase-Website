@@ -6,6 +6,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\TipController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\BookmarkController;
+use App\Http\Controllers\ReportController;
+use App\Http\Controllers\AdminController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -47,17 +50,41 @@ Route::middleware('auth')->group(function () {
     // User can comment
     Route::post('/recipes/{recipe}/comments', [CommentController::class, 'storeRecipeComment'])->name('comments.store.recipe');
     Route::post('/tips/{tip}/comments', [CommentController::class, 'storeTipComment'])->name('comments.store.tip');
+
+
+    // The route for bookmarking recipes
+    Route::post('/recipes/{recipe}/bookmark', [BookmarkController::class, 'toggleRecipe'])->name('recipes.bookmark');
     
+    // NEW ROUTE FOR BOOKMARKING TIPS
+    Route::post('/tips/{tip}/bookmark', [BookmarkController::class, 'toggleTip'])->name('tips.bookmark');
+
+    // The route for the "My Bookmarks" page (stays the same)
+    Route::get('/my-bookmarks', [BookmarkController::class, 'index'])->name('bookmarks.index');
+    
+    // Report
+    Route::post('/recipes/{recipe}/report', [ReportController::class, 'storeRecipeReport'])->name('reports.store.recipe');
+    Route::post('/tips/{tip}/report', [ReportController::class, 'storeTipReport'])->name('reports.store.tip');
 });
 
-// ADD THIS NEW ROUTE!
+// ADMIN
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () 
+{
+    Route::get('/reports', [AdminController::class, 'reportsIndex'])->name('reports.index');
+
+    Route::patch('/reports/{report}/resolve', [AdminController::class, 'resolveReport'])->name('reports.resolve');
+});
+
 // It uses "a" wildcard {recipe} to accept any recipe ID.
 Route::get('/recipes/{recipe}', [RecipeController::class, 'show'])->name('recipes.show');
 
 // The {tip} wildcard will capture the ID from the URL.
 Route::get('/tips/{tip}', [TipController::class, 'show'])->name('tips.show');
 
-// ADD THIS NEW ROUTE FOR SEARCH
+// ROUTE FOR SEARCH
 Route::get('/search', [PageController::class, 'search'])->name('search.index');
+
+// Show all
+Route::get('/recipes', [RecipeController::class, 'index'])->name('recipes.index');
+Route::get('/tips', [TipController::class, 'index'])->name('tips.index');
 
 require __DIR__.'/auth.php';

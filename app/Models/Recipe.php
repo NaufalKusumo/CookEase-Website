@@ -28,6 +28,7 @@ class Recipe extends Model
         return $this->belongsTo(User::class);
     }
 
+    // Polymorphic relationship
     public function comments()
     {
         return $this->morphMany(Comment::class, 'commentable')->latest();
@@ -42,4 +43,16 @@ class Recipe extends Model
         // Format to one decimal place, or return 'No ratings' if null.
         return $average ? number_format($average, 1) : 'No rating';
     }
+
+    public function bookmarks()
+    {
+        return $this->morphToMany(User::class, 'bookmarkable');
+    }
+
+    public function reports()
+    {
+        return $this->morphMany(Report::class, 'reportable');
+    }
+
+    public function path() { return '/recipes/' . $this->id; }
 }

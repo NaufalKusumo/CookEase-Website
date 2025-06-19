@@ -32,9 +32,9 @@
             </form>
             <!-- Nav Links -->
             <div class="hidden md:flex items-center space-x-6">
-                <a href="#" class="text-gray-700 hover:text-green-600">Beranda</a>
-                <a href="#" class="text-gray-700 hover:text-green-600">Resep</a>
-                <a href="#" class="text-gray-700 hover:text-green-600">Tips Dapur</a>
+                <a href="{{ url('/') }}" class="text-gray-700 hover:text-green-600">Beranda</a>
+                <a href="{{ route('recipes.index') }}" class="text-gray-700 hover:text-green-600">Resep</a>
+                <a href="{{ route('tips.index') }}" class="text-gray-700 hover:text-green-600">Tips Dapur</a>
             </div>
             <!-- Login/Register Button -->
             <!-- Login/Register OR User Info -->
@@ -47,15 +47,28 @@
 
                 @auth
                     <!-- This HTML will ONLY show if the user is LOGGED IN -->
-                    <button id="open-modal-btn" class="px-6 py-2 bg-yellow-500 text-white font-semibold rounded-full hover:bg-yellow-600">Create!</button>
-                    
-                    <span class="text-gray-700 font-medium">Hi, {{ auth()->user()->name }}</span>
+                    <div class="flex items-center space-x-4">
+                        
+                        {{-- THIS IS THE NEW PART --}}
+                        @if (auth()->user() && auth()->user()->role === 'admin')
+                            <a href="{{ route('admin.reports.index') }}" class="px-4 py-2 bg-red-600 text-white font-semibold rounded-full hover:bg-red-700 text-sm">
+                                Admin Reports
+                            </a>
+                        @endif
+                        {{-- END OF NEW PART --}}
 
-                    <!-- Logout Button -->
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <button type="submit" class="text-gray-500 hover:text-gray-800">Logout</button>
-                    </form>
+                        <!-- "Create!" button and user menu -->
+                        <a href="{{ route('bookmarks.index') }}">My Bookmarks</a>
+                        <button id="open-modal-btn" class="px-6 py-2 bg-yellow-500 text-white font-semibold rounded-full hover:bg-yellow-600">Create!</button>
+                        
+                        <span class="text-gray-700 font-medium">Hi, {{ auth()->user()->name }}</span>
+
+                        <!-- Logout Button -->
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" class="text-gray-500 hover:text-gray-800">Logout</button>
+                        </form>
+                    </div>
                 @endauth
             </div>
         </nav>
@@ -202,11 +215,11 @@
         <!-- Modal Body (The Choices) -->
         <div class="flex flex-col gap-4 items-center">
             <a href="{{ route('recipes.create') }}"
-               class="w-full block text-center px-6 py-4 bg-gray-100 text-gray-900 font-semibold rounded-xl hover:bg-gray-200 transition-colors text-lg shadow-sm">
+                class="w-full block text-center px-6 py-4 bg-gray-100 text-gray-900 font-semibold rounded-xl hover:bg-gray-200 transition-colors text-lg shadow-sm">
                 Resep Dapur
             </a>
             <a href="{{ route('tips.create') }}"
-               class="w-full block text-center px-6 py-4 bg-gray-100 text-gray-900 font-semibold rounded-xl hover:bg-gray-200 transition-colors text-lg shadow-sm">
+                class="w-full block text-center px-6 py-4 bg-gray-100 text-gray-900 font-semibold rounded-xl hover:bg-gray-200 transition-colors text-lg shadow-sm">
                 Tips Dapur
             </a>
         </div>

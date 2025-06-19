@@ -45,4 +45,14 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function bookmarkedRecipes()
+    {
+        return $this->morphedByMany(Recipe::class, 'bookmarkable');
+    }
+
+    public function bookmarkedTips()
+    {
+        return $this->morphedByMany(Tip::class, 'bookmarkable');
+    }
 }

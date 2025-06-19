@@ -114,9 +114,10 @@ class TipController extends Controller
     public function destroy(Tip $tip)
     {
         // AUTHORIZATION CHECK
-        if (auth()->id() !== $tip->user_id) {
+        if (auth()->id() !== $tip->user_id && auth()->user()->role !== 'admin') {
             abort(403, 'Unauthorized Action');
         }
+
 
         // DELETE THE PHOTO if it exists
         if ($tip->photo) {
@@ -128,5 +129,11 @@ class TipController extends Controller
 
         // REDIRECT to the homepage
         return redirect('/')->with('success', 'Tip deleted successfully.');
+    }
+
+    public function index()
+    {
+        $tips = \App\Models\Tip::latest()->paginate(12);
+        return view('tips.index', ['tips' => $tips]);
     }
 }
