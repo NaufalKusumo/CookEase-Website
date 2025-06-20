@@ -13,7 +13,7 @@ class DashboardController extends Controller
     {
         $user = Auth::user();
 
-        // Get the user's recipes and tips using the relationships you already defined
+        // Get the user's recipes and tips using the relationships already defined
         $myRecipes = $user->recipes()->latest()->get();
         $myTips = $user->tips()->latest()->get();
 

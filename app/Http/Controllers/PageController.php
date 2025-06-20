@@ -11,34 +11,16 @@ class PageController extends Controller
 {
     public function showHomePage()
     {
-        // Check if a user is logged in AND their role is 'creator'
-        if (auth()->check() && auth()->user()->role === 'creator') {
-            
-            // --- CREATOR'S VIEW ---
-            // Get only the recipes created by this specific user
-            $myRecipes = Recipe::where('user_id', auth()->id())
-                            ->latest()
-                            ->get();
+        // This function now does the same thing for everyone:
+        // Show the 4 newest recipes and 4 newest tips.
+        $newRecipes = Recipe::latest()->take(4)->get();
+        $newTips = Tip::latest()->take(4)->get();
 
-            return view('welcome', [
-                'newRecipes' => $myRecipes, // Send their recipes to the view
-                'bestRecipes' => collect(), // Send an empty collection for now
-            ]);
-
-        } else {
-
-            // --- GUEST OR REGULAR USER'S VIEW ---
-            // Get the general recipes for everyone else
-            $newRecipes = Recipe::latest()->take(4)->get();
-            $bestRecipes = Recipe::latest()->take(4)->get(); // We'll deal with this "best" later
-            $newTips = Tip::latest()->take(4)->get(); // <-- TO GET THE TIPS
-
-            return view('welcome', [
-                'newRecipes' => $newRecipes,
-                'bestRecipes' => $bestRecipes,
-                'newTips' => $newTips, // <-- TO SEND THE TIPS TO THE VIEW
-            ]);
-        }
+        return view('welcome', [
+            'newRecipes' => $newRecipes,
+            //'BestRecipes => $bestRecipes,
+            'newTips' => $newTips,
+        ]);
     }
 
     /**

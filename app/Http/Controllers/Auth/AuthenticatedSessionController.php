@@ -28,15 +28,13 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        // --- ADD THIS NEW LOGIC BLOCK ---
         $user = $request->user();
-        if ($user && $user->role === 'creator') {
-            // If the user is a creator, redirect them to their dashboard.
-            return redirect()->route('dashboard'); // We will create this route next.
+        // Redirect creators and admins to the dashboard
+        if ($user && ($user->role === 'creator' || $user->role === 'admin')) {
+            return redirect()->route('dashboard');
         }
-        // --- END OF NEW LOGIC BLOCK ---
 
-        // Regular users will continue to the default home route.
+        // Regular users go to the homepage
         return redirect()->intended(RouteServiceProvider::HOME);
     }
     /**

@@ -12,8 +12,9 @@ class Comment extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function recipe()
+    // polymorphic relationship.
+    public function commentable()
     {
-        return $this->belongsTo(Recipe::class);
+        return $this->morphTo();
     }
 }
