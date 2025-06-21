@@ -14,7 +14,8 @@
             <!-- Logo -->
             <div class="flex items-center space-x-2">
                 <!-- You can put your SVG logo icon here -->
-                <span class="text-2xl font-bold text-gray-800">CookEase</span>
+                <img src="{{ asset('storage/recipes/logo.png') }}" alt="CookEase Logo" class="w-auto h-8 max-w-[50px] object-contain">
+                <span class="text-2xl font-bold text-black-800">CookEase</span>
             </div>
             <!-- Search Form -->
             <form method="GET" action="{{ route('search.index') }}" class="relative flex-1 max-w-md mx-8">
@@ -25,24 +26,24 @@
                     placeholder="Cari resep atau tip..." 
                     class="w-full py-2 pl-4 pr-10 border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500"
                 >
-                <button type="submit" class="absolute top-0 right-0 mt-2 mr-3 text-gray-500 hover:text-gray-800">
+                <button type="submit" class="absolute top-0 right-0 mt-2 mr-3 text-black-500 font-bold hover:text-gray-800">
                     <!-- Search Icon SVG -->
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
                 </button>
             </form>
             <!-- Nav Links -->
             <div class="hidden md:flex items-center space-x-6">
-                <a href="{{ url('/') }}" class="text-gray-700 hover:text-green-600">Beranda</a>
-                <a href="{{ route('recipes.index') }}" class="text-gray-700 hover:text-green-600">Resep</a>
-                <a href="{{ route('tips.index') }}" class="text-gray-700 hover:text-green-600">Tips Dapur</a>
+                <a href="{{ url('/') }}" class="text-black-700 font-bold hover:text-green-600">Beranda</a>
+                <a href="{{ route('recipes.index') }}" class="text-black-700 font-bold hover:text-green-600">Resep</a>
+                <a href="{{ route('tips.index') }}" class="text-black-700 font-bold hover:text-green-600">Tips Dapur</a>
             </div>
-            <!-- Login/Register Button -->
+
             <!-- Login/Register OR User Info -->
             <div class="flex items-center space-x-4">
                 @guest
                     <!-- This HTML will ONLY show if the user is a GUEST -->
-                    <a href="{{ route('login') }}" class="px-6 py-2 border border-gray-800 text-gray-800 rounded-full hover:bg-gray-800 hover:text-white">Login</a>
-                    <a href="{{ route('register') }}" class="px-6 py-2 border border-gray-800 text-gray-800 rounded-full hover:bg-gray-800 hover:text-white">Register</a>
+                    <a href="{{ route('login') }}" class="px-6 py-2 border border-gray-800 font-bold text-gray-800 rounded-full hover:bg-gray-800 hover:text-white">Login</a>
+                    <a href="{{ route('register') }}" class="px-6 py-2 border border-gray-800 font-bold text-gray-800 rounded-full hover:bg-gray-800 hover:text-white">Register</a>
                 @endguest
 
                 @auth
@@ -80,8 +81,8 @@
     </header>
 
     <!-- Hero Section -->
-    <section class="relative h-screen flex items-center justify-center text-center bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1542010589005-d1eacc3918f2?q=80&w=2070&auto=format&fit=crop');">
-        <div class="absolute inset-0 bg-white/50"></div> <!-- Semi-transparent overlay -->
+        <section class="relative h-screen flex items-center justify-center text-center bg-cover bg-center" style="background-image: url('{{ asset('storage/recipes/dashboard_picture.png/') }}');">
+        <div class="absolute inset-0 bg-white/40"></div> <!-- Semi-transparent overlay -->
         <div class="relative z-5">
             <h1 class="text-5xl md:text-7xl font-bold text-gray-900">Cook Like a Pro With<br>Our Easy And Tasty Recipes</h1>
             <p class="mt-4 text-lg text-gray-700">Discover simple, mouthwatering recipes that anyone can whip up in minutes</p>
@@ -106,7 +107,7 @@
                     <div class="relative">
                         @if ($recipe->photo)
                             <!-- If the recipe HAS a photo, display it from storage -->
-                            <img src="{{ asset('storage/' . $recipe->photo) }}" alt="{{ $recipe->title }}" class="w-full h-48 object-cover">
+                            <img src="{{ asset('images/recipes/nasigoreng.jpg') }}' . $recipe->photo) }}" alt="{{ $recipe->title }}" class="w-full h-48 object-cover">
                         @else
                             <!-- If the recipe does NOT have a photo, show a placeholder -->
                             <img src="https://images.unsplash.com/photo-1466637574441-749b8f19452f?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="{{ $recipe->title }}" class="w-full h-48 object-cover">

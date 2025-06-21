@@ -12,7 +12,7 @@
             <!-- Logo -->
             <div class="flex items-center space-x-2">
                 <!-- You can put your SVG logo icon here -->
-                <span class="text-2xl font-bold text-gray-800">CookEase</span>
+                <span class="text-2xl font-bold text-black-800">CookEase</span>
             </div>
             <!-- Search Form -->
             <form method="GET" action="{{ route('search.index') }}" class="relative flex-1 max-w-md mx-8">
@@ -30,17 +30,17 @@
             </form>
             <!-- Nav Links -->
             <div class="hidden md:flex items-center space-x-6">
-                <a href="{{ url('/') }}" class="text-gray-700 hover:text-green-600">Beranda</a>
-                <a href="{{ route('recipes.index') }}" class="text-gray-700 hover:text-green-600">Resep</a>
-                <a href="{{ route('tips.index') }}" class="text-gray-700 hover:text-green-600">Tips Dapur</a>
+                <a href="{{ url('/') }}" class="text-black-700 font-bold hover:text-green-600">Beranda</a>
+                <a href="{{ route('recipes.index') }}" class="text-black-700 font-bold hover:text-green-600">Resep</a>
+                <a href="{{ route('tips.index') }}" class="text-black-700 hover:text-green-600">Tips Dapur</a>
             </div>
             <!-- Login/Register Button -->
             <!-- Login/Register OR User Info -->
             <div class="flex items-center space-x-4">
                 @guest
                     <!-- This HTML will ONLY show if the user is a GUEST -->
-                    <a href="{{ route('login') }}" class="px-6 py-2 border border-gray-800 text-gray-800 rounded-full hover:bg-gray-800 hover:text-white">Login</a>
-                    <a href="{{ route('register') }}" class="px-6 py-2 border border-gray-800 text-gray-800 rounded-full hover:bg-gray-800 hover:text-white">Register</a>
+                    <a href="{{ route('login') }}" class="px-6 py-2 border border-gray-800  text-gray-800 font-bold rounded-full hover:bg-gray-800 hover:text-white">Login</a>
+                    <a href="{{ route('register') }}" class="px-6 py-2 border border-gray-800 text-gray-800 font-bold rounded-full hover:bg-gray-800 hover:text-white">Register</a>
                 @endguest
 
                 @auth
