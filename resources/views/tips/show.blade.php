@@ -10,13 +10,19 @@
 
     <!-- Navbar for a logged-in user -->
     <header class="bg-white shadow-sm sticky top-0 z-50">
-        <nav class="container mx-auto p-4 flex justify-between items-center">
-            <a href="/" class="text-2xl font-bold text-gray-800">CookEase</a>
-            <div class="flex items-center space-x-4">
+    <nav class="flex items-center justify-between px-6 py-4 bg-white shadow-sm">
+        <div class="flex items-center space-x-2">
+            <!-- LOGO -->
+            <img src="{{ asset('storage/recipes/logo.png') }}" alt="Logo" class="h-8 w-auto">
+            <!-- TEXT -->
+            <span class="text-xl font-bold text-gray-900">CookEase</span>
+        </div>
                 @guest
-                <!-- This HTML will ONLY show if the user is a GUEST -->
-                <a href="{{ route('login') }}" class="px-6 py-2 border border-gray-800 font-bold text-gray-800 rounded-full hover:bg-gray-800 hover:text-white">Masuk</a>
-                <a href="{{ route('register') }}" class="px-6 py-2 border border-gray-800 font-bold text-gray-800 rounded-full hover:bg-gray-800 hover:text-white">Daftar</a>
+                <div class="flex items-center space-x-4">
+                    <!-- This HTML will ONLY show if the user is a GUEST -->
+                    <a href="{{ route('login') }}" class="px-6 py-2 border border-gray-800 font-bold text-gray-800 rounded-full hover:bg-gray-800 hover:text-white">Masuk</a>
+                    <a href="{{ route('register') }}" class="px-6 py-2 border border-gray-800 font-bold text-gray-800 rounded-full hover:bg-gray-800 hover:text-white">Daftar</a>
+                </div>    
                 @endguest
 
                 @auth
