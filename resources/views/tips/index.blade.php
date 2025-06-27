@@ -112,7 +112,7 @@
         </div>
     </footer>
 
-<!-- Modal  -->  
+<!-- Modal Content  -->  
 <div id="create-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center p-4">
     <!-- Modal Content Box -->
     <div class="bg-white rounded-2xl shadow-xl p-8 max-w-sm w-full relative">
