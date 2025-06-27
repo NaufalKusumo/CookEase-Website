@@ -103,7 +103,7 @@
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="px-4 py-2 bg-red-600 text-white font-semibold rounded-md hover:bg-red-500" onclick="return confirm('Are you sure you want to delete this tip?')">
-                                        Delete
+                                        Hapus
                                     </button>
                                 </form>
                             @endif
@@ -212,7 +212,7 @@
             <!-- Right Column: Sidebar -->
             <div class="w-full lg:w-1/3">
                 <div class="sticky top-24"> <!-- Makes sidebar follow scroll -->
-                    <h3 class="text-xl font-bold mb-4">Other tips</h3>
+                    <h3 class="text-xl font-bold mb-4">Tips lain</h3>
                     <div class="space-y-4">
                         @foreach ($otherTips as $other)
                         <a href="{{ route('tips.show', $other->id) }}" class="flex items-center space-x-4 group">
@@ -233,7 +233,7 @@
         <!-- Report Modal -->
     <div id="report-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 ...">
         <div class="bg-white rounded-lg p-8 ...">
-            <h3 class="text-xl font-bold mb-4">Report Content</h3>
+            <h3 class="text-xl font-bold mb-4">Laporkan Tips</h3>
             
             <!-- The form's action will point to the correct route -->
             @if(isset($recipe))
@@ -252,11 +252,11 @@
                     </select>
                 </div>
                 <div>
-                    <label for="details" class="block mb-1">Details (Optional)</label>
+                    <label for="details" class="block mb-1">Detail (Opsional)</label>
                     <textarea name="details" id="details" rows="4" class="w-full ..." placeholder="Please provide more details..."></textarea>
                 </div>
                 <div class="mt-6 flex justify-end space-x-4">
-                    <button type="button" id="close-report-modal-btn" class="px-4 py-2 bg-gray-200 ...">Cancel</button>
+                    <button type="button" id="close-report-modal-btn" class="px-4 py-2 bg-gray-200 ...">Batal</button>
                     <button type="submit" class="px-4 py-2 bg-red-600 text-white ...">Kirim Laporan</button>
                 </div>
             </form>
