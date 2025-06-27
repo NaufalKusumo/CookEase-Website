@@ -6,10 +6,8 @@
         @csrf
 
         <section 
-            class="relative p-8 rounded-xl shadow-xl text-center max-w-md mx-auto bg-cover bg-center" 
-            style="background-white"
+            class="relative p-6 rounded-xl shadow-xl text-center w-[600px] max-w-full mx-auto bg-white"
         >
-            <div class="absolute inset-0 bg-white/85 rounded-xl"></div> <!-- Semi-transparent overlay -->
 
             <div class="relative z-10">
                 <!-- Logo -->
