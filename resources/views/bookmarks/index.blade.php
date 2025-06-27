@@ -108,5 +108,39 @@
             </section>
         @endif
     </main>
+<script>
+    // Find the elements we need on the page by their IDs
+    const openModalBtn = document.getElementById('open-modal-btn');
+    const closeModalBtn = document.getElementById('close-modal-btn');
+    const createModal = document.getElementById('create-modal');
+
+    // Check if the open button exists (it only does for logged-in users)
+    if (openModalBtn) {
+        // --- Event Listener to OPEN the modal ---
+        // When the "Create!" button is clicked...
+        openModalBtn.addEventListener('click', function() {
+            // ...remove the 'hidden' class from the modal to make it visible.
+            createModal.classList.remove('hidden');
+        });
+    }
+
+    // --- Event Listener to CLOSE the modal (using the 'X' button) ---
+    // When the close button is clicked...
+    closeModalBtn.addEventListener('click', function() {
+        // ...add the 'hidden' class back to the modal to hide it.
+        createModal.classList.add('hidden');
+    });
+
+    // --- (Optional but good UX) Event Listener to CLOSE the modal by clicking the background ---
+    // When the user clicks anywhere on the modal container...
+    createModal.addEventListener('click', function(event) {
+        // ...check if the click was on the dark background itself (the parent)
+        // and not on the white content box (a child).
+        if (event.target === createModal) {
+            createModal.classList.add('hidden');
+        }
+    });
+</script>
+
 </body>
 </html>

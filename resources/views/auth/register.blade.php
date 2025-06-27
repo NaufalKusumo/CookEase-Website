@@ -3,10 +3,10 @@
         @csrf
 
         <section 
-            class="relative p-6 rounded-xl shadow-xl text-center max-w-md mx-auto bg-cover bg-center backdrop-blur-md" 
+            class="relative p-8 rounded-xl shadow-xl text-center max-w-md mx-auto bg-cover bg-center" 
             style="background-image: url('{{ asset('storage/recipes/dashboard_picture.png') }}');"
         >
-            <div class="absolute inset-0 bg-white/60 rounded-xl"></div> <!-- Overlay -->
+            <div class="absolute inset-0 bg-white/85 rounded-xl"></div> <!-- Semi-transparent overlay -->
 
             <div class="relative z-10">
                 <!-- Logo -->
@@ -15,77 +15,84 @@
                     <span class="text-2xl font-bold text-gray-800">CookEase</span>    
                 </div>
 
-                <h2 class="text-md text-gray-700 mb-6">Daftar Akun Baru</h2>
+                <h2 class="text-lg text-gray-700 mb-8 font-medium">Daftar Akun Baru</h2>
 
                 <!-- Name -->
-                <div class="mb-4 text-left">
-                    <x-input-label for="name" :value="__('Name')" class="text-black" />
+                <div class="mb-6 text-left">
+                    <x-input-label for="name" :value="__('Name')" />
                     <x-text-input 
                         id="name" 
-                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 bg-white text-gray-800" 
+                        class="mt-2 block w-full px-3 py-3" 
                         type="text" 
                         name="name" 
                         :value="old('name')" 
                         required 
                         autofocus 
-                        autocomplete="name" 
+                        autocomplete="name"
+                        placeholder="Masukkan nama lengkap Anda"
                     />
-                    <x-input-error :messages="$errors->get('name')" class="mt-1" />
+                    <x-input-error :messages="$errors->get('name')" class="mt-2" />
                 </div>
 
                 <!-- Email Address -->
-                <div class="mb-4 text-left">
-                    <x-input-label for="email" :value="__('Email')" class="text-black" />
+                <div class="mb-6 text-left">
+                    <x-input-label for="email" :value="__('Email')" />
                     <x-text-input 
                         id="email" 
-                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 bg-white text-gray-800" 
+                        class="mt-2 block w-full px-3 py-3" 
                         type="email" 
                         name="email" 
                         :value="old('email')" 
                         required 
-                        autocomplete="username" 
+                        autocomplete="username"
+                        placeholder="Masukkan email Anda"
                     />
-                    <x-input-error :messages="$errors->get('email')" class="mt-1" />
+                    <x-input-error :messages="$errors->get('email')" class="mt-2" />
                 </div>
 
                 <!-- Password -->
-                <div class="mb-4 text-left">
-                    <x-input-label for="password" :value="__('Password')" class="text-black" />
+                <div class="mb-6 text-left">
+                    <x-input-label for="password" :value="__('Password')" />
                     <x-text-input 
                         id="password" 
-                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 bg-white text-gray-800" 
+                        class="mt-2 block w-full px-3 py-3" 
                         type="password" 
                         name="password" 
                         required 
-                        autocomplete="new-password" 
+                        autocomplete="new-password"
+                        placeholder="Masukkan password"
                     />
-                    <x-input-error :messages="$errors->get('password')" class="mt-1" />
+                    <x-input-error :messages="$errors->get('password')" class="mt-2" />
                 </div>
 
                 <!-- Confirm Password -->
-                <div class="mb-4 text-left">
-                    <x-input-label for="password_confirmation" :value="__('Confirm Password')" class="text-black" />
+                <div class="mb-6 text-left">
+                    <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
                     <x-text-input 
                         id="password_confirmation" 
-                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 bg-white text-gray-800" 
+                        class="mt-2 block w-full px-3 py-3" 
                         type="password" 
                         name="password_confirmation" 
                         required 
-                        autocomplete="new-password" 
+                        autocomplete="new-password"
+                        placeholder="Konfirmasi password"
                     />
-                    <x-input-error :messages="$errors->get('password_confirmation')" class="mt-1" />
+                    <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
                 </div>
 
-                <div class="flex items-center justify-between mt-4">
-                    <a 
-                        class="text-sm text-indigo-500 hover:text-indigo-700 underline" 
-                        href="{{ route('login') }}">
-                        {{ __('Sudah ada akun?') }}
-                    </a>
-
-                    <x-primary-button class="ml-3 bg-indigo-600 hover:bg-indigo-700 text-white">
+                <!-- Register Button & Login Link -->
+                <div class="space-y-4">
+                    <x-primary-button class="w-full justify-center py-3">
                         {{ __('Daftar') }}
                     </x-primary-button>
+
+                    <div class="text-center">
+                        <a 
+                            class="text-sm text-indigo-600 hover:text-indigo-500 underline font-medium" 
+                            href="{{ route('login') }}">
+                            {{ __('Sudah ada akun?') }}
+                        </a>
+                    </div>
                 </div>
             </div>
         </section>
