@@ -7,7 +7,7 @@
 
         <section 
             class="relative p-8 rounded-xl shadow-xl text-center max-w-md mx-auto bg-cover bg-center" 
-            style="background-image: url('{{ asset('storage/recipes/dashboard_picture.png') }}');"
+            style="background-white"
         >
             <div class="absolute inset-0 bg-white/85 rounded-xl"></div> <!-- Semi-transparent overlay -->
 
