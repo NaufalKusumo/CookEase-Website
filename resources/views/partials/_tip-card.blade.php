@@ -7,7 +7,7 @@
             <img src="{{ asset('storage/' . $tip->photo) }}" alt="{{ $tip->title }}" class="w-full h-48 object-cover">
         @else
             <!-- Show a placeholder if no photo -->
-            <img src="https://via.placeholder.com/400x300.png/ccfbf1/15803d?text=Kitchen+Tip" alt="{{ $tip->title }}" class="w-full h-48 object-cover">
+            <img src="https://images.unsplash.com/photo-1507048331197-7d4ac70811cf?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="{{ $tip->title }}" class="w-full h-48 object-cover">
         @endif
     </div>
 

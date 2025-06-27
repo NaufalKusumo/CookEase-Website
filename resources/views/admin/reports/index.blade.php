@@ -10,22 +10,22 @@
     <!-- an add a dedicated admin navigation bar here later -->
     <header class="bg-white shadow">
         <div class="container mx-auto p-4">
-            <a href="/" class="text-xl font-bold">Back to CookEase Site</a>
+            <a href="/" class="text-xl font-bold hover:text-green-600">Kembali ke Beranda</a>
         </div>
     </header>
 
     <main class="container mx-auto p-6">
-        <h1 class="text-3xl font-bold text-gray-800 mb-6">Pending Content Reports</h1>
+        <h1 class="text-3xl font-bold text-gray-800 mb-6">Laporan yang akan ditinjau</h1>
 
         <div class="bg-white shadow-md rounded-lg overflow-x-auto">
             <table class="min-w-full leading-normal">
                 <thead>
                     <tr>
-                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-50 text-left ...">Reported Item</th>
-                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-50 text-left ...">Reason</th>
-                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-50 text-left ...">Reported By</th>
-                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-50 text-left ...">Date</th>
-                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-50 text-left ...">Actions</th>
+                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-50 text-left ...">Laporan konten</th>
+                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-50 text-left ...">Alasan</th>
+                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-50 text-left ...">Dilaporkan oleh</th>
+                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-50 text-left ...">Tanggal</th>
+                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-50 text-left ...">Tinjau</th>
                     </tr>
                 </thead>
                 <tbody>

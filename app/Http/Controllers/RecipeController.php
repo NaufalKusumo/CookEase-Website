@@ -28,7 +28,7 @@ class RecipeController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240', // 2MB Max
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240', // 10MB Max
             'servings' => 'nullable|string|max:50',
             'cook_time' => 'nullable|string|max:50',
             'ingredients' => 'required|string',

@@ -10,9 +10,9 @@
 
     <!-- Header/Navbar -->
     <header class="absolute top-0 left-0 right-0 z-10">
-        <nav class="container mx-auto p-6 flex justify-between items-center">
+        <nav class="container mx-auto px-4 py-2 flex justify-between items-center bg-white bg-opacity-75 shadow-md fixed top-0 z-50">
             <!-- Logo -->
-            <div class="flex items-center space-x-2">
+            <div class="flex items-center space-x-2 flex-shrink-0">
                 <!-- You can put your SVG logo icon here -->
                 <img src="{{ asset('storage/recipes/logo.png') }}" alt="CookEase Logo" class="w-auto h-8 max-w-[50px] object-contain">
                 <span class="text-2xl font-bold text-black-800">CookEase</span>
@@ -23,7 +23,7 @@
                     type="text" 
                     name="q" 
                     value="{{ request()->input('q') }}"
-                    placeholder="Cari resep atau tip..." 
+                    placeholder="Cari resep atau tips..." 
                     class="w-full py-2 pl-4 pr-10 border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500"
                 >
                 <button type="submit" class="absolute top-0 right-0 mt-2 mr-3 text-black-500 font-bold hover:text-gray-800">
@@ -32,7 +32,7 @@
                 </button>
             </form>
             <!-- Nav Links -->
-            <div class="hidden md:flex items-center space-x-6">
+            <div class="hidden md:flex items-center space-x-4">
                 <a href="{{ url('/') }}" class="text-black-700 font-bold hover:text-green-600">Beranda</a>
                 <a href="{{ route('recipes.index') }}" class="text-black-700 font-bold hover:text-green-600">Resep</a>
                 <a href="{{ route('tips.index') }}" class="text-black-700 font-bold hover:text-green-600">Tips Dapur</a>
@@ -42,29 +42,29 @@
             <div class="flex items-center space-x-4">
                 @guest
                     <!-- This HTML will ONLY show if the user is a GUEST -->
-                    <a href="{{ route('login') }}" class="px-6 py-2 border border-gray-800 font-bold text-gray-800 rounded-full hover:bg-gray-800 hover:text-white">Login</a>
-                    <a href="{{ route('register') }}" class="px-6 py-2 border border-gray-800 font-bold text-gray-800 rounded-full hover:bg-gray-800 hover:text-white">Register</a>
+                    <a href="{{ route('login') }}" class="px-6 py-2 border border-gray-800 font-bold text-gray-800 rounded-full hover:bg-gray-800 hover:text-white">Masuk</a>
+                    <a href="{{ route('register') }}" class="px-6 py-2 border border-gray-800 font-bold text-gray-800 rounded-full hover:bg-gray-800 hover:text-white">Daftar</a>
                 @endguest
 
                 @auth
                     <!-- This HTML will ONLY show if the user is LOGGED IN -->
-                    <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-3">
                         
                         {{-- THIS IS THE NEW PART --}}
                         @if (auth()->user() && auth()->user()->role === 'admin')
-                            <a href="{{ route('admin.reports.index') }}" class="px-4 py-2 bg-red-600 text-white font-semibold rounded-full hover:bg-red-700 text-sm">
-                                Admin Reports
+                            <a href="{{ route('admin.reports.index') }}" class="px-3 py-2 bg-red-600 text-white font-semibold rounded-full hover:bg-red-700 text-sm ml-2">
+                                Laporan 
                             </a>
                         @endif
                         {{-- END OF NEW PART --}}
 
                         <!-- "Create!" button and user menu -->
-                        <a href="{{ route('bookmarks.index') }}">My Bookmarks</a>
-                        <button id="open-modal-btn" class="px-6 py-2 bg-yellow-500 text-white font-semibold rounded-full hover:bg-yellow-600">Create!</button>
+                        <a href="{{ route('bookmarks.index') }}" class="text-black-700 font-bold hover:text-green-600">Favoritku</a>
+                        <button id="open-modal-btn" class="px-3 py-2 bg-yellow-500 text-white font-semibold rounded-full hover:bg-yellow-600">Buat!</button>
                         
-                        <span class="text-gray-700 font-medium">Hi, {{ auth()->user()->name }}</span>
+                        <span class="text-gray-700 font-medium">Hai, {{ auth()->user()->name }}</span>
                         <a href="{{ route('dashboard') }}" title="My Dashboard" class="text-gray-600 hover:text-gray-900">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                         </a>
@@ -72,7 +72,7 @@
                         <!-- Logout Button -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-                            <button type="submit" class="text-gray-500 hover:text-gray-800">Logout</button>
+                            <button type="submit" class="px-6 py-2 border border-gray-800  text-gray-800 font-bold rounded-full hover:bg-gray-800 hover:text-white">Keluar</button>
                         </form>
                     </div>
                 @endauth
@@ -86,7 +86,7 @@
         <div class="relative z-5">
             <h1 class="text-5xl md:text-7xl font-bold text-gray-900">Cook Like a Pro With<br>Our Easy And Tasty Recipes</h1>
             <p class="mt-4 text-lg text-gray-700">Discover simple, mouthwatering recipes that anyone can whip up in minutes</p>
-            <a href="#" class="mt-8 inline-block px-8 py-3 bg-gray-800 text-white font-semibold rounded-full hover:bg-gray-700">Explore All Recipes</a>
+            <a href="#" class="mt-8 inline-block px-8 py-3 bg-gray-800 text-white font-semibold rounded-full hover:bg-gray-700">Lihat Semua Resep</a>
         </div>
     </section>
 
@@ -95,7 +95,7 @@
 
         <!-- New Recipes Section -->
         <section class="mb-12">
-            <h2 class="text-2xl font-bold text-gray-800 mb-4">New Recipes</h2>
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Resep Baru</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 
                 <!-- This is the loop that displays the recipes! -->
@@ -107,7 +107,7 @@
                     <div class="relative">
                         @if ($recipe->photo)
                             <!-- If the recipe HAS a photo, display it from storage -->
-                            <img src="{{ asset('images/recipes/nasigoreng.jpg') }}' . $recipe->photo) }}" alt="{{ $recipe->title }}" class="w-full h-48 object-cover">
+                            <img src="{{ asset('storage/' . $recipe->photo) }}" alt="{{ $recipe->title }}" class="w-full h-48 object-cover">
                         @else
                             <!-- If the recipe does NOT have a photo, show a placeholder -->
                             <img src="https://images.unsplash.com/photo-1466637574441-749b8f19452f?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="{{ $recipe->title }}" class="w-full h-48 object-cover">
@@ -121,7 +121,7 @@
 
                     <!-- 2. The Text Content Section (also goes inside the card) -->
                     <div class="p-4">
-                        <p class="text-sm text-gray-500">Breakfast</p>
+                        <p class="text-sm text-gray-500">Sarapan</p>
                         <h3 class="text-xl font-semibold text-gray-800 truncate">{{ $recipe->title }}</h3>
                         <p class="text-gray-600 mt-2 text-sm truncate">{{ $recipe->description }}</p>
                         <div class="mt-4 flex justify-between items-center">
@@ -144,7 +144,7 @@
         <!--          NEW TIPS SECTION                     -->
         <!-- ============================================= -->
         <section class="mb-12">
-            <h2 class="text-2xl font-bold text-gray-800 mb-4">New Tips</h2>
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Tips Dapur Baru</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 
                 <!-- This is the loop that displays the tips! -->
@@ -159,7 +159,7 @@
                                 <img src="{{ asset('storage/' . $tip->photo) }}" alt="{{ $tip->title }}" class="w-full h-48 object-cover">
                             @else
                                 <!-- Show a placeholder if no photo -->
-                                <img src="https://via.placeholder.com/400x300.png/ccfbf1/15803d?text=Kitchen+Tip" alt="{{ $tip->title }}" class="w-full h-48 object-cover">
+                                <img src="https://images.unsplash.com/photo-1507048331197-7d4ac70811cf?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="{{ $tip->title }}" class="w-full h-48 object-cover">
                             @endif
                         </div>
 
@@ -215,7 +215,7 @@
         <!-- Modal Header -->
         <button id="close-modal-btn" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700 text-3xl font-bold leading-none focus:outline-none">&times;</button>
         <div class="mb-8">
-            <h3 class="text-xl font-bold text-gray-800 text-center">Apa yang akan kamu buat</h3>
+            <h3 class="text-xl font-bold text-gray-800 text-center">Apa yang akan kamu buat ?</h3>
         </div>
         <!-- Modal Body (The Choices) -->
         <div class="flex flex-col gap-4 items-center">
