@@ -23,7 +23,7 @@
     <!-- Main Form Content -->
     <main class="container mx-auto p-8">
         <!-- We link the form to the buttons in the navbar using its ID -->
-        <form id="recipe-form" method="POST" action="{{ route('recipe.update', $recipe->id) }}" enctype="multipart/form-data">
+        <form id="recipe-form" method="POST" action="{{ route('recipes.update', $recipe->id) }}" enctype="multipart/form-data">
             @csrf <!-- IMPORTANT: Laravel security token -->
             @method('PUT') <!-- Tells Laravel this is an UPDATE operation -->
 

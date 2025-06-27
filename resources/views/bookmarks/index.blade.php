@@ -56,7 +56,7 @@
                         {{-- END OF NEW PART --}}
 
                         <!-- "Create!" button and user menu -->
-                        <a href="{{ route('bookmarks.index') }}" class="text-black-700 font-bold hover:text-green-600">Favoritku</a>
+                        <a href="{{ route('bookmarks.index') }}" class="text-black-700 font-bold hover:text-green-600 ml-2">Favoritku</a>
                         <button id="open-modal-btn" class="px-3 py-2 bg-yellow-500 text-white font-semibold rounded-full hover:bg-yellow-600">Buat!</button>
                         
                         <span class="text-gray-700 font-medium">Hai, {{ auth()->user()->name }}</span>
