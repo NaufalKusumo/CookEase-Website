@@ -26,14 +26,15 @@
                 @endguest
 
                 @auth
-                    <a href="{{ route('recipes.create') }}" class="px-4 py-2 bg-yellow-500 text-white font-semibold rounded-md hover:bg-yellow-600 flex items-center space-x-2">
-                        <span>Buat</span>
+                <div class="flex items-center space-x-4">
+                    <a href="{{ route('tips.create') }}" class="px-4 py-2 bg-yellow-500 text-white font-semibold rounded-md hover:bg-yellow-600 ">
+                    <span>Buat</span>
                     </a>
                     <a href="#" class="text-gray-600 hover:text-gray-800">
                         <!-- User profile icon -->
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
                     </a>
-
+                </div>
                 @endauth
             </div>
         </nav>

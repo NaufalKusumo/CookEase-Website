@@ -9,11 +9,18 @@
 <body class="bg-gray-50">
 
     <!-- Navbar -->
+    <!-- Navbar -->
     <header class="bg-white shadow-sm">
         <nav class="container mx-auto p-4 flex justify-between items-center">
-            <a href="/" class="text-2xl font-bold text-gray-800">CookEase</a>
+            <div class="flex items-center space-x-2 flex-shrink-0">
+            <!-- You can put your SVG logo icon here -->
+            <img src="{{ asset('storage/recipes/logo.png') }}" alt="CookEase Logo" class="flex items-center space-x-2 flex-shrink-0 w-auto h-8 max-w-[50px] object-contain">
+            <span class="text-2xl font-bold text-black-800">CookEase</span>
+            </div>
             <div>
-                <button type="submit" form="tip-form" class="px-4 py-2 bg-yellow-500 text-white font-semibold rounded-md hover:bg-yellow-600">Terbitkan</button>
+                <!-- The form ID here is 'recipe-form' -->
+                <button type="button" class="px-4 py-2 border border-red-500 text-red-500 rounded-md mr-2 hover:bg-red-50">Hapus</button>
+                <button type="submit" form="recipe-form" class="px-4 py-2 bg-yellow-500 text-white font-semibold rounded-md hover:bg-yellow-600">Terbitkan</button>
             </div>
         </nav>
     </header>
@@ -37,7 +44,7 @@
 
             <!-- Main Content -->
             <div class="mt-6">
-                <label for="content" class="text-xl font-bold">Isi Tip Lengkap (Wajib)</label>
+                <label for="content" class="text-xl font-bold">Isi Tips Lengkap (Wajib)</label>
                 <textarea name="content" id="content" rows="8" placeholder="Tuliskan isi lengkap tip dapurmu di sini..." class="mt-2 w-full text-lg bg-gray-100 p-4 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">{{ old('content') }}</textarea>
                 @error('content') <p class="text-red-500 text-sm mt-1">{{ $message }}</p> @enderror
             </div>
@@ -47,7 +54,7 @@
                 <label for="photo" class="cursor-pointer text-center text-gray-500">
                     <div id="photo-preview-placeholder">
                         <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>
-                        <span>Foto Tip (Optional)</span>
+                        <span>Foto Tips (Opsional)</span>
                     </div>
                     <input id="photo" name="photo" type="file" class="hidden" accept="image/*">
                 </label>
